@@ -34,3 +34,9 @@ EOF
 git add .
 git commit -m "pixi env init"
 ```
+
+## vscode 配置 for pixi
+
+```text
+所有文件 均位于 .vscode 内
+```

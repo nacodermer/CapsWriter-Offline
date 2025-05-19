@@ -1,0 +1,16 @@
+{
+    "python.terminal.activateEnvironment": false,
+    "terminal.integrated.profiles.linux": {
+        "bash-proj": {
+            "path": "bash",
+            "args": ["--rcfile", ".vscode/proj.bashrc"],
+            "overrideName": true,
+            "icon": "terminal-bash",
+            "color": "terminal.ansiGreen",
+            "env": {}
+        }
+    },
+    "terminal.integrated.defaultProfile.linux": "bash",
+    "terminal.integrated.shellIntegration.enabled": true,
+    "terminal.integrated.shellIntegration.decorationsEnabled": "both"
+}
