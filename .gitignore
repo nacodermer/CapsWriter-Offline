@@ -1,0 +1,9 @@
+
+# pixi environments
+.pixi
+*.egg-info
+
+# projet ignore
+__pycache__
+tmp
+data

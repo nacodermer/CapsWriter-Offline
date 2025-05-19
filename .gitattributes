@@ -1,2 +1,4 @@
 # 指定所有 .bat 文件在提交时将 LF 转换为 CRLF
 *.bat text eol=crlf
+# SCM syntax highlighting & preventing 3-way merges
+pixi.lock merge=binary linguist-language=YAML linguist-generated=true
