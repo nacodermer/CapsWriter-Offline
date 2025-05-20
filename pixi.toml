@@ -8,3 +8,54 @@ version = "0.1.0"
 [tasks]
 
 [dependencies]
+
+[feature.py38.dependencies]
+python = "3.8.*"
+
+[feature.common.pypi-dependencies]
+rich = "*"
+websockets = "*"
+numpy = "*"
+
+[feature.server.pypi-dependencies]
+typeguard = "==2.13.3"
+sherpa-onnx = "==1.8.11"
+funasr-onnx = "==0.2.5"
+kaldi-native-fbank = "==1.17"
+jieba = "*"
+
+[feature.server.target.linux-64.tasks]
+server = "python start_server.py"
+
+[feature.client.pypi-dependencies]
+keyboard = "*"
+pyclip = "*"
+sounddevice = "*"
+pypinyin = "*"
+watchdog = "*"
+typer = "*"
+srt = "*"
+colorama = "*"
+
+[feature.client.target.linux-64.tasks]
+client = "python start_client.py"
+
+[feature.dev.dependencies]
+ruff = "*"
+watchfiles = "*"
+
+[feature.dev.tasks]
+fmt = "ruff format ."
+lint = "ruff check ."
+linf = "ruff check --fix ."
+style = { cmd = "pwd", depends-on = ["linf", "fmt"] }
+
+[feature.test.dependencies]
+pytest = "*"
+
+[environments]
+server = { features = ["py38", "common", "server"], solve-group = "sg_prod" }
+client = { features = ["py38", "common", "client"], solve-group = "sg_prod" }
+dev = { features = ["py38", "common", "server", "client", "dev"], solve-group = "sg_prod" }
+test = { features = ["py38", "common", "server", "client", "test"], solve-group = "sg_prod" }
+default = { features = ["py38", "common", "server", "client", "dev", "test"], solve-group = "sg_prod" }
