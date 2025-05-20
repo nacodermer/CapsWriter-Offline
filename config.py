@@ -29,6 +29,7 @@ class ClientConfig:
 
     save_audio = True  # 是否保存录音文件
     audio_name_len = 20  # 将录音识别结果的前多少个字存储到录音文件名中，建议不要超过200
+    user_data_dir = Path() / "data" / "user"  # 用户数据保存目录
 
     trash_punc = "，。,."  # 识别结果要消除的末尾标点
 
