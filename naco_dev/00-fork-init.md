@@ -59,7 +59,7 @@ sudo apt install pipewire-alsa libportaudio2 ffmpeg xclip
 pixi add --feature py38 python=3.8
 pixi add --feature common --pypi rich websockets numpy
 pixi add --feature server --pypi typeguard==2.13.3 sherpa_onnx==1.8.11 funasr_onnx==0.2.5 kaldi-native-fbank==1.17 jieba
-pixi add --feature client --pypi keyboard pyclip sounddevice pypinyin watchdog typer srt colorama
+pixi add --feature client --pypi pynput pyclip sounddevice pypinyin watchdog typer srt colorama
 pixi add --feature dev ruff watchfiles
 pixi add --feature test pytest
 

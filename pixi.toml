@@ -28,7 +28,7 @@ jieba = "*"
 server = "python start_server.py"
 
 [feature.client.pypi-dependencies]
-keyboard = "*"
+pynput = "*"
 pyclip = "*"
 sounddevice = "*"
 pypinyin = "*"

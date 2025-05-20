@@ -1,4 +1,4 @@
-import keyboard
+from pynput import keyboard
 from util.client_cosmic import Cosmic
 from config import ClientConfig as Config
 
@@ -11,23 +11,45 @@ from util.my_status import Status
 
 
 task = asyncio.Future()
-status = Status('开始录音', spinner='point')
+status = Status("开始录音", spinner="point")
 pool = ThreadPoolExecutor()
 pressed = False
 released = True
 event = Event()
+listener = None
+key_controller = keyboard.Controller()
 
 
-def shortcut_correct(e: keyboard.KeyboardEvent):
-    # 在我的 Windows 电脑上，left ctrl 和 right ctrl 的 keycode 都是一样的，
-    # keyboard 库按 keycode 判断触发
-    # 即便设置 right ctrl 触发，在按下 left ctrl 时也会触发
-    # 不过，虽然两个按键的 keycode 一样，但事件 e.name 是不一样的
-    # 在这里加一个判断，如果 e.name 不是我们期待的按键，就返回
-    key_expect = keyboard.normalize_name(Config.shortcut).replace('left ', '')
-    key_actual = e.name.replace('left ', '')
-    if key_expect != key_actual: return False
-    return True
+def get_pynput_key(key_name):
+    """将配置中的按键名称转换为 pynput 的按键对象"""
+    key_name = key_name.lower()
+
+    # 特殊按键映射
+    special_keys = {
+        "caps lock": keyboard.Key.caps_lock,
+        "shift": keyboard.Key.shift,
+        "ctrl": keyboard.Key.ctrl,
+        "alt": keyboard.Key.alt,
+        "space": keyboard.Key.space,
+        "tab": keyboard.Key.tab,
+        "esc": keyboard.Key.esc,
+        "enter": keyboard.Key.enter,
+    }
+
+    if key_name in special_keys:
+        return special_keys[key_name]
+    elif len(key_name) == 1:
+        return key_name
+    return None
+
+
+def is_target_key(key, target_key):
+    """检查按键是否是目标快捷键"""
+    if isinstance(target_key, keyboard.Key):
+        return key == target_key
+    elif hasattr(key, "char") and key.char:
+        return key.char.lower() == target_key
+    return False
 
 
 def launch_task():
@@ -38,8 +60,7 @@ def launch_task():
 
     # 将开始标志放入队列
     asyncio.run_coroutine_threadsafe(
-        Cosmic.queue_in.put({'type': 'begin', 'time': t1, 'data': None}),
-        Cosmic.loop
+        Cosmic.queue_in.put({"type": "begin", "time": t1, "data": None}), Cosmic.loop
     )
 
     # 通知录音线程可以向队列放数据了
@@ -74,13 +95,20 @@ def finish_task():
     # 通知结束任务
     asyncio.run_coroutine_threadsafe(
         Cosmic.queue_in.put(
-            {'type': 'finish',
-             'time': time.time(),
-             'data': None
-             },
+            {"type": "finish", "time": time.time(), "data": None},
         ),
-        Cosmic.loop
+        Cosmic.loop,
     )
+
+
+def send_key(key_name):
+    """模拟发送按键"""
+    target_key = get_pynput_key(key_name)
+    if target_key:
+        if isinstance(target_key, keyboard.Key):
+            key_controller.tap(target_key)
+        else:
+            key_controller.tap(target_key)
 
 
 # =================单击模式======================
@@ -118,80 +146,71 @@ def manage_task(e: Event):
             cancel_task()
 
         # 长按，发送按键
-        keyboard.send(Config.shortcut)
-
-
-def click_mode(e: keyboard.KeyboardEvent):
-    global pressed, released, event
-
-    if e.event_type == 'down' and released:
-        pressed, released = True, False
-        event = Event()
-        pool.submit(count_down, event)
-        pool.submit(manage_task, event)
-
-    elif e.event_type == 'up' and pressed:
-        pressed, released = False, True
-        event.set()
-
+        send_key(Config.shortcut)
 
 
 # ======================长按模式==================================
 
 
-def hold_mode(e: keyboard.KeyboardEvent):
-    """像对讲机一样，按下录音，松开停止"""
-    global task
+# ======================pynput 按键处理==========================
 
-    if e.event_type == 'down' and not Cosmic.on:
-        # 记录开始时间
-        launch_task()
-    elif e.event_type == 'up':
-        # 记录持续时间，并标识录音线程停止向队列放数据
-        duration = time.time() - Cosmic.on
 
-        # 取消或停止任务
-        if duration < Config.threshold:
-            cancel_task()
+def on_press(key):
+    global pressed, released, event
+    target_key = get_pynput_key(Config.shortcut)
+
+    if is_target_key(key, target_key):
+        if Config.hold_mode:
+            # 长按模式
+            if not Cosmic.on:
+                # 记录开始时间
+                launch_task()
         else:
-            finish_task()
-
-            # 松开快捷键后，再按一次，恢复 CapsLock 或 Shift 等按键的状态
-            if Config.restore_key:
-                time.sleep(0.01)
-                keyboard.send(Config.shortcut)
-
-
+            # 单击模式
+            if released:
+                pressed, released = True, False
+                event = Event()
+                pool.submit(count_down, event)
+                pool.submit(manage_task, event)
 
 
+def on_release(key):
+    global pressed, released, event
+    target_key = get_pynput_key(Config.shortcut)
 
-# ==================== 绑定 handler ===============================
+    if is_target_key(key, target_key):
+        if Config.hold_mode:
+            # 长按模式
+            if Cosmic.on:
+                # 记录持续时间，并标识录音线程停止向队列放数据
+                duration = time.time() - Cosmic.on
 
+                # 取消或停止任务
+                if duration < Config.threshold:
+                    cancel_task()
+                else:
+                    finish_task()
 
-def hold_handler(e: keyboard.KeyboardEvent) -> None:
-
-    # 验证按键名正确
-    if not shortcut_correct(e):
-        return
-
-    # 长按模式
-    hold_mode(e)
-
-
-def click_handler(e: keyboard.KeyboardEvent) -> None:
-
-    # 验证按键名正确
-    if not shortcut_correct(e):
-        return
-
-    # 单击模式
-    click_mode(e)
+                    # 松开快捷键后，再按一次，恢复 CapsLock 或 Shift 等按键的状态
+                    if Config.restore_key:
+                        time.sleep(0.01)
+                        send_key(Config.shortcut)
+        else:
+            # 单击模式
+            if pressed:
+                pressed, released = False, True
+                event.set()
 
 
 def bond_shortcut():
-    if Config.hold_mode:
-        keyboard.hook_key(Config.shortcut, hold_handler, suppress=Config.suppress)
-    else:
-        # 单击模式，必须得阻塞快捷键
-        # 收到长按时，再模拟发送按键
-        keyboard.hook_key(Config.shortcut, click_handler, suppress=True)
+    """使用 pynput 绑定快捷键监听"""
+    global listener
+
+    # 创建并启动监听器
+    listener = keyboard.Listener(
+        on_press=on_press,
+        on_release=on_release,
+        suppress=Config.suppress,  # 注意：pynput在某些系统上可能不支持suppress
+    )
+    listener.start()
+    return listener
