@@ -1,5 +1,3 @@
-import sys
-from pathlib import Path
 from multiprocessing import Queue
 from typing import Dict, List
 import websockets

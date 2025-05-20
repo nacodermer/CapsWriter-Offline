@@ -12,9 +12,7 @@ from typing import List
 
 import typer
 import colorama
-import keyboard
 
-from config import ClientConfig as Config
 from util.client_cosmic import console, Cosmic
 from util.client_stream import stream_open, stream_close
 from util.client_shortcut_handler import bond_shortcut
@@ -95,7 +93,7 @@ def init_mic():
     try:
         asyncio.run(main_mic())
     except KeyboardInterrupt:
-        console.print(f'再见！')
+        console.print('再见！')
     finally:
         print('...')
 
@@ -107,7 +105,7 @@ def init_file(files: List[Path]):
     try:
         asyncio.run(main_file(files))
     except KeyboardInterrupt:
-        console.print(f'再见！')
+        console.print('再见！')
         sys.exit()
 
 

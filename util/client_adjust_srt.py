@@ -1,7 +1,7 @@
 import uuid
 from pathlib import Path
 from util import srt_from_txt
-from util.client_cosmic import console, Cosmic
+from util.client_cosmic import console
 
 
 def adjust_srt(file: Path):
@@ -13,4 +13,4 @@ def adjust_srt(file: Path):
 
     # 调整 srt
     srt_from_txt.one_task(file)
-    console.print(f'    [green]srt 调整完成')
+    console.print('    [green]srt 调整完成')

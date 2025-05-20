@@ -1,4 +1,3 @@
-from os import getcwd, sep, path
 import time
 from util.client_cosmic import console
 from util import hot_sub_zh

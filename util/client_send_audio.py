@@ -22,9 +22,9 @@ async def send_message(message):
     else:
         try:
             await Cosmic.websocket.send(json.dumps(message))
-        except websockets.ConnectionClosedError as e:
+        except websockets.ConnectionClosedError:
             if message['is_final']:
-                console.print(f'[red]连接中断了')
+                console.print('[red]连接中断了')
         except Exception as e:
             print('出错了')
             print(e)

@@ -1,5 +1,4 @@
 import sys
-from pathlib import Path
 
 
 from config import ModelPaths

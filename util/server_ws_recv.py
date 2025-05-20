@@ -1,12 +1,10 @@
 import json 
 import time
-import base64 
-import asyncio
 import websockets
 from base64 import b64decode
 
 from util.server_cosmic import console, Cosmic
-from util.server_classes import Task, Result
+from util.server_classes import Task
 from util.my_status import Status
 
 status_mic = Status('正在接收音频', spinner='point')

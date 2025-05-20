@@ -17,7 +17,7 @@
 import json
 from datetime import timedelta
 from pathlib import Path
-from typing import List, Dict, Union
+from typing import List
 
 import typer
 import srt

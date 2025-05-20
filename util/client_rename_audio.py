@@ -3,7 +3,6 @@ from typing import Union
 import time
 from util.client_cosmic import Cosmic, console
 from config import ClientConfig as Config
-from os import makedirs
 import re
 
 

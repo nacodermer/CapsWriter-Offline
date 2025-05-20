@@ -1,5 +1,5 @@
 import re
-from string import digits, ascii_letters
+from string import digits
 
 en_in_zh = re.compile(r"""(?ix)    # i 表示忽略大小写，x 表示开启注释模式
     ([\u4e00-\u9fa5]|[a-z0-9]+\s)?      # 左侧是中文，或者英文加空格

@@ -3,12 +3,10 @@ import time
 
 import numpy as np 
 
-from util.server_cosmic import console
 from config import ServerConfig as Config
 from util.server_classes import Task, Result
 from util.chinese_itn import chinese_to_num
 from util.format_tools import adjust_space
-from rich import inspect
 
 
 results = {}

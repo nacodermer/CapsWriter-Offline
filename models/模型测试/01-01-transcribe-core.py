@@ -82,7 +82,6 @@ import re
 from dataclasses import dataclass
 from datetime import timedelta
 from pathlib import Path
-from copy import copy
 
 import numpy as np
 import sherpa_onnx

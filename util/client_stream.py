@@ -5,7 +5,6 @@ import sounddevice as sd
 import asyncio
 import sys
 import time
-from rich import inspect
 import threading
 
 

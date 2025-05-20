@@ -50,7 +50,7 @@ def show_mic_tips():
 
 
 def show_file_tips():
-    markdown = f'\n项目地址：https://github.com/HaujetZhao/CapsWriter-Offline'
+    markdown = '\n项目地址：https://github.com/HaujetZhao/CapsWriter-Offline'
     console.print(Markdown(markdown), height=True)
     console.print(f'当前基文件夹：[cyan underline]{os.getcwd()}')
     console.print(f'服务端地址： [cyan underline]{Config.addr}:{Config.port}')

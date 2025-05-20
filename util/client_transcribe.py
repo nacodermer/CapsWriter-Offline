@@ -1,20 +1,12 @@
 import base64
 import json
-import os
 import sys
-import platform
 import uuid
 from pathlib import Path
 import time
 import re
-import wave
-import asyncio
 import subprocess
 
-import numpy as np
-import websockets
-import typer
-import colorama
 from util import srt_from_txt
 from util.client_cosmic import console, Cosmic
 from util.client_check_websocket import check_websocket
@@ -52,7 +44,7 @@ async def transcribe_send(file: Path):
         "-",
     ]
     process = subprocess.Popen(ffmpeg_cmd, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
-    console.print(f'    正在提取音频', end='\r')
+    console.print('    正在提取音频', end='\r')
     data = process.stdout.read()
     audio_duration = len(data) / 4 / 16000
     console.print(f'    音频长度：{audio_duration:.2f}s')

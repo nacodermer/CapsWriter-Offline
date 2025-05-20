@@ -6,7 +6,7 @@ import jieba
 import logging
 jieba.setLogLevel(logging.INFO)
 
-print(f'正在载入模型')
+print('正在载入模型')
 t1 = time.time()
 model_dir = "."
 model = CT_Transformer(model_dir, quantize=True)

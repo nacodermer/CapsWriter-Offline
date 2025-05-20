@@ -1,8 +1,3 @@
-from asyncio import Queue, AbstractEventLoop
-import websockets
-import sounddevice as sd
-import sys
-from pathlib import Path
 
 from rich.console import Console 
 from rich.theme import Theme

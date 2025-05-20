@@ -168,7 +168,7 @@ def convert_value_num(original):
             value += temp * value_mapper[c]
             base = value_mapper[c] // 10
             temp = 0
-    value += temp * base; 
+    value += temp * base 
     final = str(value)
     
     # 小数部分，就是纯数字，直接映射即可
