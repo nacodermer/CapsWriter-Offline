@@ -41,9 +41,5 @@ async def type_result(text):
 
     # 模拟打印
     else:
-        # 逐字输入文本
-        for char in text:
-            keyboard_controller.press(char)
-            keyboard_controller.release(char)
-            # 小延迟，防止输入太快
-            await asyncio.sleep(0.01)
+        # 逐字输入文本，仅支持ascii字符
+        keyboard_controller.type(text)

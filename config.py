@@ -25,7 +25,7 @@ class ClientConfig:
     restore_key = True  # 录音完成，松开按键后，是否自动再按一遍，以恢复 CapsLock 或 Shift 等按键之前的状态
     threshold = 0.3  # 按下快捷键后，触发语音识别的时间阈值
     end_capture_delay = 0.3  # 结束录音前的延迟秒数，用于捕获句尾
-    paste = True  # 是否以写入剪切板然后模拟 Ctrl-V 粘贴的方式输出结果
+    paste = True  # 是否以写入剪切板然后模拟 Ctrl-V 粘贴的方式输出结果; False 仅支持ascii字符,且输入法必须为英文
     restore_clip = True  # 模拟粘贴后是否恢复剪贴板
 
     save_audio = True  # 是否保存录音文件
