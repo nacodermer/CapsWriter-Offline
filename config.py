@@ -32,6 +32,7 @@ class ClientConfig:
     user_data_dir = Path() / "data" / "user"  # 用户数据保存目录
 
     trash_punc = "，。,."  # 识别结果要消除的末尾标点
+    strip_end_punc = False  # 是否去除末尾标点符号
 
     hot_zh = True  # 是否启用中文热词替换，中文热词存储在 hot_zh.txt 文件里
     多音字 = True  # True 表示多音字匹配
