@@ -28,7 +28,7 @@ class ClientConfig:
     paste = True  # 是否以写入剪切板然后模拟 Ctrl-V 粘贴的方式输出结果; False 仅支持ascii字符,且输入法必须为英文
     restore_clip = True  # 模拟粘贴后是否恢复剪贴板
 
-    save_audio = True  # 是否保存录音文件
+    save_audio = False  # 是否保存录音文件； 作为语音输入推荐设为 False
     audio_name_len = 20  # 将录音识别结果的前多少个字存储到录音文件名中，建议不要超过200
     user_data_dir = Path() / "data" / "user"  # 用户数据保存目录
 
