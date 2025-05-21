@@ -131,6 +131,9 @@ def manage_task(e: Event):
 
     # 先运行任务
     if not on:
+        # 延迟开始录音提示，留足准备时间
+        # 延迟时间等于阈值时间，确保用户看到提示时，前面的录音已经处理
+        time.sleep(Config.threshold)
         launch_task()
 
     # 及时松开按键了，是单击
@@ -165,6 +168,9 @@ def on_press(key):
         if Config.hold_mode:
             # 长按模式
             if not Cosmic.on:
+                # 延迟开始录音提示，留足准备时间
+                # 延迟时间等于阈值时间，确保用户看到提示时，前面的录音已经处理
+                time.sleep(Config.threshold)
                 # 记录开始时间
                 launch_task()
         else:
