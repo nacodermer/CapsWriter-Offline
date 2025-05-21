@@ -4,11 +4,11 @@
 shps # 配置代理
 
 ## 下载并解压 CapsWriter-Offline 源码 及 对应 models
-./naco_dev/github_downloader.sh -u nacodermer -r CapsWriter-Offline -v commit:e5a3ab6 -f source -t PROJROOT -z -e # 指定提交源码 到 PROJROOT 下
-./naco_dev/github_downloader.sh -u HaujetZhao -r CapsWriter-Offline -v v1.0 -f models.zip -t MODELS -e          # v1.0 模型 到 data/models 下
+./github_downloader.sh -u nacodermer -r CapsWriter-Offline -v branch:naco_dev -f source -t PROJROOT -z -e # 指定提交源码 到 PROJROOT 下
+./github_downloader.sh -u HaujetZhao -r CapsWriter-Offline -v v1.0 -f models.zip -t MODELS -e          # v1.0 模型 到 data/models 下
 
 # 下载 win10_64位 一键启动包 CapsWriter-Offline-Windows-64bit.zip
-# ./naco_dev/github_downloader.sh -u HaujetZhao -r CapsWriter-Offline -v latest -f CapsWriter-Offline-Windows-64bit.zip
+# ./github_downloader.sh -u HaujetZhao -r CapsWriter-Offline -v latest -f CapsWriter-Offline-Windows-64bit.zip
 
 ## pixi 工具准备
 # curl -fsSL <https://pixi.sh/install.sh> | sh # 安装 pixi 工具
