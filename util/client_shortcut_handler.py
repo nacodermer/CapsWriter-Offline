@@ -137,6 +137,8 @@ def manage_task(e: Event):
     if e.wait(timeout=Config.threshold * 0.8):
         # 如果有任务在运行，就结束任务
         if Cosmic.on and on:
+            # 延迟片刻，让音频采集到结尾内容
+            time.sleep(Config.end_capture_delay)
             finish_task()
 
     # 没有及时松开按键，是长按
@@ -189,6 +191,8 @@ def on_release(key):
                 if duration < Config.threshold:
                     cancel_task()
                 else:
+                    # 延迟片刻，让音频采集到结尾内容
+                    time.sleep(Config.end_capture_delay)
                     finish_task()
 
                     # 松开快捷键后，再按一次，恢复 CapsLock 或 Shift 等按键的状态
