@@ -1,3 +1,30 @@
+# fork 说明
+
+```text
+此项目从
+https://github.com/HaujetZhao/CapsWriter-Offline/commit/a072f5312031e31706b294e9242d516fb8979fc6
+fork 至
+https://github.com/nacodermer/CapsWriter-Offline/commit/a072f5312031e31706b294e9242d516fb8979fc6
+自此 commit 开始 进行深度 更改 定制 开发
+侵删，欢迎合并
+```
+```text
+原版源码无法在 linux 上直接运行，此项目专为 linux 开发，开发并测试于 kubuntu 24.04
+因改动巨大，很可能无法被合并入原仓库，此项目仅为测试使用，无后续开发计划
+```
+此项目使用 [pixi](https://pixi.sh) 管理和开发，详见 [fork-init](naco_dev/00-fork-init.md) 文档
+
+使用方法见 [insconf](insconf.md) 文档
+
+运行推荐使用 pixi 工具，客户端需要安装依赖 
+```bash
+## pixi 工具准备
+# curl -fsSL <https://pixi.sh/install.sh> | sh # 安装 pixi 工具
+
+## 客户端 系统依赖, for debian based linux os, ubuntu 24.04
+sudo apt install pipewire-alsa libportaudio2 ffmpeg xclip
+```
+
 ## CapsWriter-Offline
 
 ![image-20240108115946521](assets/image-20240108115946521.png)  
