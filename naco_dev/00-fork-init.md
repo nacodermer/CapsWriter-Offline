@@ -16,7 +16,7 @@ https://github.com/nacodermer/CapsWriter-Offline/commit/a072f5312031e31706b294e9
 ```bash
 git clone https://github.com/nacodermer/CapsWriter-Offline
 cd CapsWriter-Offline
-git checkout -b naco-00
+git checkout -b naco_dev
 ```
 
 ## pixi env init
@@ -55,20 +55,23 @@ sudo apt install pipewire-alsa libportaudio2 ffmpeg xclip
 # https://pixi.sh/latest/tutorials/multi_environment
 # https://pixi.sh/latest/workspace/advanced_tasks
 
+# better to do some cleaning for pixi.toml
+# rm -rf .pixi; rm pixi.lock # better to remove pixi envs
+
 # add dependencies for feature
-pixi add --feature py38 python=3.8
 pixi add --feature common --pypi rich websockets numpy # 使用 feature common 替代 default, 以跳过 使用 pixi add --pypi 在 default 中添加依赖必须指定python版本
+pixi add --feature py38 python=3.8
 pixi add --feature server --pypi typeguard==2.13.3 sherpa_onnx==1.8.11 funasr_onnx==0.2.5 kaldi-native-fbank==1.17 jieba
 pixi add --feature client --pypi pynput pyclip sounddevice pypinyin watchdog typer srt colorama
 pixi add --feature dev ruff watchfiles
 pixi add --feature test pytest
 
 # add workspace environment with feature; --force is used to overwrite the environment
-pixi workspace environment add server --feature py38 --feature common --feature server --solve-group sg_prod --force
-pixi workspace environment add client --feature py38 --feature common --feature client --solve-group sg_prod --force
-pixi workspace environment add dev --feature py38 --feature common --feature server --feature client --feature dev --solve-group sg_prod --force
-pixi workspace environment add test --feature py38 --feature common --feature server --feature client --feature test --solve-group sg_prod --force
-pixi workspace environment add default --feature py38 --feature common --feature server --feature client --feature dev --feature test --solve-group sg_prod --force
+pixi workspace environment add server --feature common --feature py38 --feature server --solve-group sg_prod --force
+pixi workspace environment add client --feature common --feature py38 --feature client --solve-group sg_prod --force
+pixi workspace environment add dev --feature common --feature py38 --feature server --feature client --feature dev --solve-group sg_prod --force
+pixi workspace environment add test --feature common --feature py38 --feature server --feature client --feature test --solve-group sg_prod --force
+pixi workspace environment add default --feature common --feature py38 --feature server --feature client --feature dev --feature test --solve-group sg_prod --force
 
 # echo "prod dev test default" | xargs -n 1 pixi list -x -e
 
@@ -79,15 +82,8 @@ pixi task add --feature dev linf -- "ruff check --fix ."
 pixi task add --feature dev style "pwd" --depends-on linf fmt # like 'pixi task alias' but with --feature
 pixi task add --feature server --platform linux-64 server -- "python start_server.py"
 pixi task add --feature client --platform linux-64 client -- "python start_client.py"
-```
 
-## install dependencies and environment
-
-```bash
-# in proj dir cotools
-rm -rf .pixi/envs
-rm pixi.lock
-pixi install # or, pixi run (https://pixi.sh/latest/workspace/lockfile/#how-to-use-a-lock-file)
+pixi install # install env; or, pixi run (https://pixi.sh/latest/workspace/lockfile/#how-to-use-a-lock-file)
 ```
 
 ## use
